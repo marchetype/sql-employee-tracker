@@ -27,7 +27,7 @@ function init() {
             choices: [
                 'View all departments',
                 'Add a department to the database',
-                'View the current database of roles within the company',
+                'View all roles',
                 'Add a role to the database',
                 'View all current employees',
                 'Add an employee to the database',
@@ -43,7 +43,7 @@ function init() {
             case 'Add a department to the database':
                 addDept();
                 break;
-            case 'View the current database of roles within the company':
+            case 'View all roles':
                 viewRoles();
                 break;
             case 'Add a role to the database':
@@ -109,11 +109,75 @@ function viewDepts() {
 
 //ADD functions located below
 function addEmployee() {
-
+    inquirer
+    .prompt([
+        {
+            name: 'first_name',
+            type: 'input',
+            message: 'Please input the first name of the employee being added:'
+        },
+        {
+            name: 'last_name',
+            type: 'input',
+            message: 'Please input the last name of the employee being added:'
+        },
+        {
+            name: 'role_id',
+            type: 'input',
+            message: 'Please input the role ID number for the specified employee:'
+        },
+        {
+            name: 'manager_id',
+            type: 'input',
+            message: 'Please input the manager id number for the specified employee:'
+        }
+    ]).then(function(answer) {
+        db.query('INSERT INTO employee SET ?',
+        {
+            first_name: answer.first_name,
+            last_name: answer.last_name,
+            role_id: answer.role_id,
+            manager_id: answer.manager_id
+        },
+        function(err){
+            if (err) throw err;
+            console.log('Employee has been added to the database!');
+            init();
+        })
+    })
 }
 
 function addRole() {
-
+    inquirer
+    .prompt([
+        {
+            name: 'title',
+            type: 'input',
+            message: 'Please input the title of the role being added:'
+        },
+        {
+            name: 'salary',
+            type: 'input',
+            message: 'Please input the salary for the specified role:'
+        },
+        {
+            name: 'id',
+            type: 'input',
+            message: 'Please input the department ID number for the specified role:'
+        }
+    ]).then(function(answer) {
+        db.query('INSERT INTO role SET ?',
+        {
+            title: answer.title,
+            salary: answer.salary,
+            department_id: answer.id
+        },
+        function(err){
+            if (err) throw err;
+            console.log('Role has been added!');
+            init();
+        })
+    })
 }
 
 function addDept() {
