@@ -67,7 +67,14 @@ function init() {
 //VIEW functions located below
 
 function viewEmployees() {
-    db.query(`SELECT id AS ID, first_name AS First, last_name AS Last FROM employee;`, function(err, result) {
+    db.query(
+        `SELECT employee.id AS ID, 
+        first_name AS First, 
+        last_name AS Last,
+        role.title AS Title
+        FROM employee
+        LEFT JOIN role
+        ON employee.role_id = role.id`, function(err, result) {
         if (err) throw err;
         console.table(result);
         init();
@@ -75,10 +82,14 @@ function viewEmployees() {
 }
 
 function viewRoles() {
-    db.query(`SELECT id AS ID, title AS Title, salary AS Salary FROM role, 
-    SELECT department.id, department.dep_name, role.department_id
-    FROM department
-    LEFT JOIN role ON department.id = role.department_id`, function(err, result) 
+    db.query(
+        `SELECT role.id AS ID, 
+        title AS Title, 
+        salary AS Salary, 
+        department.dep_name AS Department
+        FROM role 
+        LEFT JOIN department 
+        ON role.department_id = department.id`, function(err, result) 
     {
         if(err) throw(err);
         console.table(result);
