@@ -8,8 +8,7 @@ const db = mysql2.createConnection(
         user: '',
         password: '',
         database: ''
-    }
-)
+    })
 
 db.connect(function(err){
     if(err) throw err;
