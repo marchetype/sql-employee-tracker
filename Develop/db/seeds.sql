@@ -1,3 +1,4 @@
+USE company_db;
 -- INSERTing values for department TABLE
 INSERT INTO department(dep_name)
 VALUES 
@@ -13,9 +14,9 @@ VALUES
 INSERT INTO role(title, salary, department_id)
 VALUES 
     ('Salesperson', 30000, 1), 
-    ('Customer Service Representative', 38500, 2), 
+    ('Customer Service Rep', 38500, 2), 
     ('Accountant', 40000, 3), 
-    ('Quality Assurance Representative', 35000, 4),
+    ('Quality Assurance Rep', 35000, 4),
     ('Head of Human Resources', 37000, 5),
     ('Warehouse Manager', 45000, 6);
 

@@ -15,8 +15,8 @@ const db = mysql2.createConnection(
 db.connect(function(err){
     if(err) throw err;
     console.log(`Connected to port ${PORT}`);
-
-    
+    //Initialize application
+    init();
 })
 
 function init() {
@@ -69,20 +69,22 @@ function init() {
 //VIEW functions located below
 
 function viewEmployees() {
-    db.query("SELECT e.id as ID, e.first_name AS First, e.last_name AS Last, e.role_id AS Role, r.salary AS Salary, m.last_name AS Manager, d.name AS Department FROM employee e LEFT JOIN employee m ON e.manager_id = m.id LEFT JOIN role r ON e.role_id = r.title LEFT JOIN department d ON r. department_id = d.id", function(err, result) {
+    db.query("SELECT e.id as ID, e.first_name AS First, e.last_name AS Last, e.role_id AS Role, r.salary AS Salary, m.last_name AS Manager, d.dep_name AS Department FROM employee e LEFT JOIN employee m ON e.manager_id = m.id LEFT JOIN role r ON e.role_id = r.title LEFT JOIN department d ON r. department_id = d.id", function(err, result) {
         if (err) throw err;
-        console.table(results);
+        console.table(result);
         init();
     });
 }
 
 function viewRoles() {
-    db.query()
+    db.query("")
 }
 
 function viewDepts() {
     db.query('SELECT * FROM department', function(err, result) {
         if(err) throw(err);
+        console.table(result);
+        init();
 
     })
 }
@@ -103,5 +105,5 @@ function addDept() {
 //UPDATE function located below
 
 function updateEmployeeRole() {
-    
+
 }
