@@ -5,9 +5,9 @@ console.log()
 const db = mysql2.createConnection(
     {
         host: '127.0.0.1',
-        user: '',
+        user: 'root',
         password: '',
-        database: ''
+        database: 'company_db'
     })
 
 db.connect(function(err){
@@ -67,7 +67,7 @@ function init() {
 //VIEW functions located below
 
 function viewEmployees() {
-    db.query("SELECT e.id as ID, e.first_name AS First, e.last_name AS Last, e.role_id AS Role, r.salary AS Salary, m.last_name AS Manager, d.dep_name AS Department FROM employee LEFT JOIN employee m ON e.manager_id = m.id LEFT JOIN role r ON e.role_id = r.title LEFT JOIN department d ON r. department_id = d.id", function(err, result) {
+    db.query(`SELECT id AS ID, first_name AS First, last_name AS Last FROM employee;`, function(err, result) {
         if (err) throw err;
         console.table(result);
         init();
@@ -75,7 +75,11 @@ function viewEmployees() {
 }
 
 function viewRoles() {
-    db.query('SELECT * FROM role', function(err, result) {
+    db.query(`SELECT id AS ID, title AS Title, salary AS Salary FROM role, 
+    SELECT department.id, department.dep_name, role.department_id
+    FROM department
+    LEFT JOIN role ON department.id = role.department_id`, function(err, result) 
+    {
         if(err) throw(err);
         console.table(result);
         init();
@@ -84,7 +88,7 @@ function viewRoles() {
 }
 
 function viewDepts() {
-    db.query('SELECT * FROM department', function(err, result) {
+    db.query(`SELECT id AS ID, dep_name AS Department FROM department`, function(err, result) {
         if(err) throw(err);
         console.table(result);
         init();
