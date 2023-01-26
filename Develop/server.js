@@ -40,19 +40,19 @@ function init() {
     ]).then(function(res) {
         switch(res.start) {
             case 'View all departments':
-                viewAllDepts();
+                viewDepts();
                 break;
             case 'Add a department to the database':
                 addDept();
                 break;
             case 'View the current database of roles within the company':
-                viewAllRoles();
+                viewRoles();
                 break;
             case 'Add a role to the database':
                 addRole();
                 break;
             case 'View all current employees':
-                viewAllEmployees();
+                viewEmployees();
                 break;
             case 'Add an employee to the database':
                 addEmployee();
@@ -63,5 +63,20 @@ function init() {
             default:
                 console.log('Default response');
         }
+    })
+}
+
+function viewEmployees() {
+    db.query("SELECT e.id as ID, e.first_name AS First, e.last_name AS Last, e.role_id AS Role, r.salary AS Salary, m.last_name AS Manager, d.name AS Department FROM employee e LEFT JOIN employee m ON e.manager_id = m.id LEFT JOIN role r ON e.role_id = r.title LEFT JOIN department d ON r. department_id = d.id", function(err, result) {
+        if (err) throw err;
+        console.table(results);
+        init();
+    });
+}
+
+function viewDepts() {
+    db.query('SELECT * FROM department', function(err, result) {
+        if(err) throw(err);
+        
     })
 }
