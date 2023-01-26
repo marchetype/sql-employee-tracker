@@ -117,6 +117,21 @@ function addRole() {
 }
 
 function addDept() {
+    inquirer
+    .prompt([
+        {
+            name: 'department',
+            type: 'input',
+            message: 'Please input the name of the department being added:'
+        }
+    ]).then(function(answer) {
+        db.query('INSERT INTO department VALUES (DEFAULT, ?)', [answer.department],
+        function(err){
+            if (err) throw err;
+            console.log('Department has been added!');
+            init();
+        })
+    })
 
 }
 
