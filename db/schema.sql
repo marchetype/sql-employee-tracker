@@ -17,6 +17,7 @@ CREATE TABLE role (
     salary DECIMAL,
     department_id INT,
     PRIMARY KEY (id),
+
     FOREIGN KEY (department_id) REFERENCES department(id)
 );
 
