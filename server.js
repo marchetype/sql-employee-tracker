@@ -58,6 +58,10 @@ function init() {
             case 'Update the role of an employee within the database':
                 updateEmployeeRole();
                 break;
+            case 'Exit the application':
+                console.log('----------------------------');
+                console.log('Have a nice day!');
+                console.log('----------------------------');
             default:
                 console.log('Default response');
         }
