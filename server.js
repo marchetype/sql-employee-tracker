@@ -65,7 +65,6 @@ function init() {
 }
 
 //VIEW functions located below
-
 function viewEmployees() {
     db.query(
         `SELECT employee.id AS ID, 
@@ -123,12 +122,12 @@ function addEmployee() {
         },
         {
             name: 'role_id',
-            type: 'input',
+            type: 'number',
             message: 'Please input the role ID number for the specified employee:'
         },
         {
             name: 'manager_id',
-            type: 'input',
+            type: 'number',
             message: 'Please input the manager id number for the specified employee:'
         }
     ]).then(function(answer) {
@@ -162,7 +161,7 @@ function addRole() {
         },
         {
             name: 'id',
-            type: 'input',
+            type: 'number',
             message: 'Please input the department ID number for the specified role:'
         }
     ]).then(function(answer) {
@@ -202,5 +201,54 @@ function addDept() {
 //UPDATE function located below
 
 function updateEmployeeRole() {
+    db.query('SELECT * FROM employee', function(err,result) {
+        if(err) throw err;
+        inquirer
+        .prompt([
+            {
+                name: 'employee_select',
+                type: 'rawlist',
+                choices: function() {
+                    let employeeArr = [];
+                    for (let i = 0; i < result.length; i++) {
+                        employeeArr.push(result[i].last_name);
+                    }
+                    return employeeArr;
+                },
+                message: 'Please select an employee to update the role of:'
+            }
+        ]).then(function(answer) {
+            const employeeName = answer.employee_select;
 
+            db.query('SELECT * FROM employee', function(err, result) {
+                if(err) throw err;
+                inquirer
+                .prompt([
+                    {
+                        name: 'role',
+                        type: 'number',
+                        message: 'Please input new role ID:'
+                    },
+                    {
+                        name: 'manager_id',
+                        type: 'number',
+                        message: 'Enter manager ID number:'
+                    }
+                ]).then(function(answer) {
+                    db.query('UPDATE employee SET ? WHERE last_name = ?',
+                        [
+                            {
+                                role_id: answer.role,
+                                manager_id: answer.manager_id
+                            }, employeeName
+                        ]
+                    ),
+                    console.log('Employee has been updated!');
+                    init();
+                });
+            });
+        });
+    });
 }
+
+
